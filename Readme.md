@@ -10,7 +10,7 @@ Pokémon Red (Any% Glitchless) personal best runs:
 
 ## Watch live
 
-### [twitch.tv/pokespeedrunbots](https://www.twitch.tv/therealpokemaniak/)
+### [twitch.tv/therealpokemaniak](https://www.twitch.tv/therealpokemaniak/)
 
 PokéBot’s Unofficial streaming channel on Twitch. Consider following there to find out when we’re streaming.
 
