@@ -27,5 +27,5 @@ PokéBot comes with a built-in feature that takes advantage of random number see
 
 Kyle Coburn: Original concept, Red/Yellow routing (GitHub Seems to be no longer available)
 
-[https://github.com/jonese1234](jonese1234): Updated Version works with Bizhawk version higher than 1.6
+[jonese1234](https://github.com/jonese1234): Updated Version works with Bizhawk version higher than 1.6
 
