@@ -4,9 +4,9 @@ An automated computer program that speedruns Pokémon generation 1 games.
 
 Pokémon Red (Any% Glitchless) personal best runs:
 
+* [1:53:25] Seed: 1483476755
 * [1:53:41] Seed: 1482661519
 * [1:53:39] Seed: 1482815777
-
 
 ## Watch live
 
