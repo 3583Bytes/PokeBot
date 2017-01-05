@@ -104,12 +104,8 @@ function Strategies.reset(reason, explanation, extra, wait)
 	if time then
 		resetMessage = resetMessage.." | "..time
 	end
-	local separator
-	if Strategies.deepRun and not Control.yolo then
-		separator = " BibleThump"
-	else
-		separator = " | "
-	end
+	local separator = " | "
+	
 	resetMessage = resetMessage..separator.." "..explanation.."."
 
 	if Strategies.updates.victory and not Control.yolo then
@@ -180,7 +176,7 @@ function Strategies.setYolo(name, forced)
 			else
 				prefix = "dis"
 			end
-			print("YOLO "..prefix.."abled at "..Control.areaName)
+			--print("YOLO "..prefix.."abled at "..Control.areaName)
 		end
 	end
 	return Control.yolo
@@ -196,9 +192,9 @@ end
 function Strategies.tweetProgress(message, progress)
 	if progress then
 		Strategies.updates[progress] = true
-		message = message.." Pokemon "..Utils.capitalize(Data.gameName).." http://www.twitch.tv/thepokebot"
+		message = message.." Pokemon "..Utils.capitalize(Data.gameName).." http://www.twitch.tv/therealpokiemaniak"
 	end
-	-- Bridge.tweet(message)
+	Bridge.tweet(message)
 	return true
 end
 
@@ -394,12 +390,12 @@ function Strategies.tossItem(...)
 	end
 	local tossItem = Inventory.contains(...)
 	if not tossItem then
-		p("Nothing available to toss", ...)
+		--p("Nothing available to toss", ...)
 		return true
 	end
 	if tossItem ~= status.toss then
 		status.toss = tossItem
-		p("Tossing "..tossItem.." to make space", Inventory.count())
+		--p("Tossing "..tossItem.." to make space", Inventory.count())
 	end
 	if not Inventory.useItemOption(tossItem, nil, 1) then
 		if Menu.pause() then
@@ -525,15 +521,15 @@ local function nidokingStats()
 	Combat.factorPP(false, false)
 	Combat.setDisableThrash(false)
 
-	p(attDV, defDV, spdDV, sclDV)
-	print(statDesc)
+	--p(attDV, defDV, spdDV, sclDV)
+	--print(statDesc)
 	Bridge.stats(statDesc)
 end
 
 function Strategies.completeCans()
 	local px, py = Player.position()
 	if px == 4 and py == 6 then
-		local trashcanTries = status.tries + 1
+		--[[local trashcanTries = status.tries + 1
 		local prefix
 		local suffix = "!"
 		if trashcanTries <= 1 then
@@ -551,9 +547,9 @@ function Strategies.completeCans()
 			prefix = "Reset me now"
 			suffix = " BibleThump"
 		end
-		Bridge.chat(" "..prefix..", "..trashcanTries.." try Trashcans"..suffix)
+		--Bridge.chat(" "..prefix..", "..trashcanTries.." try Trashcans"..suffix)
 
-		Bridge.guessResults("trash", trashcanTries)
+		--Bridge.guessResults("trash", trashcanTries)
 
 		local timeLimit = Strategies.getTimeRequirement("trash") + 1
 		if Combat.inRedBar() then
@@ -561,7 +557,7 @@ function Strategies.completeCans()
 		end
 		if Strategies.resetTime(timeLimit, "complete Trashcans") then
 			return true
-		end
+		end--]]
 		Strategies.setYolo("trash")
 		return true
 	end
@@ -709,7 +705,7 @@ Strategies.functions = {
 			local timeDiff
 			splitTime, timeDiff = Utils.timeSince(splitTime)
 			if timeDiff then
-				print(splitNumber..". "..Control.areaName..": "..Utils.elapsedTime().." ("..timeDiff..")")
+				print(splitNumber..". "..Control.areaName..": "..Utils.elapsedTime())
 			end
 		end
 		return true
@@ -955,9 +951,6 @@ Strategies.functions = {
 			swapComplete = true
 		elseif status.firstIndex < 0 or status.lastIndex < 0 then
 			swapComplete = true
-			if Strategies.initialize("swapUnavailable") then
-				p("Not available to swap", data.item, data.dest, status.firstIndex, status.lastIndex)
-			end
 		elseif status.startedAt ~= Inventory.indexOf(status.checkItem) then
 			swapComplete = true
 		end
@@ -1069,16 +1062,12 @@ Strategies.functions = {
 		if currentPP >= data.min then
 			return Strategies.closeMenuFor(data)
 		end
-		if Strategies.initialize() then
-			print("Elixer: "..data.move.." "..currentPP.." in "..Control.areaName)
-		end
 
 		data.item = "elixer"
 		return Strategies.useItem(data)
 	end,
 
 	speedchange = function(data)
-		p(data.extra..", speed changed to "..data.speed.."%")
 		client.speedmode(data.speed)
 		return true
 	end,
@@ -1232,9 +1221,7 @@ Strategies.functions = {
 			speedDV = spdDV,
 			specialDV = sclDV,
 		}
-		Bridge.stats(att.." "..def.." "..spd.." "..scl)
-		Bridge.chat("Stats: "..att.." attack, "..def.." defense, "..spd.." speed, "..scl.." special.")
-
+		
 		local resetsForStats = att < 14 or spd < 13 or scl < 11
 		local restrictiveStats = not Data.yellow and RESET_FOR_TIME
 		if not resetsForStats and restrictiveStats then
@@ -1244,14 +1231,14 @@ Strategies.functions = {
 		if resetsForStats then
 			local nidoranStatus = nil
 			if att < 15 and spd < 14 and scl < 12 then
-				nidoranStatus = Utils.random {
+				--[[nidoranStatus = Utils.random {
 					"let's just forget this ever happened",
 					"I hate everything BibleThump ",
 					"perfect stats Kappa ",
 					"there's always the next one..",
 					"worst possible stats hype",
 					"unrunnable everything -.- "
-				}
+				}--]]
 			else
 				if restrictiveStats and att == 15 and spd == 14 then
 					nidoranStatus = Utils.append(nidoranStatus, "unrunnable attack/speed combination", ", ")
@@ -1319,7 +1306,7 @@ Strategies.functions = {
 			p("", true)
 			p("", true)
 		end
-		Bridge.chat(message)
+		--Bridge.chat(message)
 		return true
 	end,
 
@@ -1431,14 +1418,6 @@ Strategies.functions = {
 
 	fightGrimer = function()
 		if Strategies.trainerBattle() then
-			if Combat.isDisabled("horn_attack") and Strategies.initialize("disabled") then
-				local message = Utils.random {
-					"Last for 0 turns pretty please?",
-					"Guess it's time to tackle everything.",
-					"How could this... happen to me?",
-				}
-				Bridge.chat("WutFace Grimer just disabled Horn Attack. "..message)
-			end
 			Battle.automate()
 		elseif status.foughtTrainer then
 			return true
@@ -1485,8 +1464,6 @@ Strategies.functions = {
 					exclamation = " :("
 				end
 			end
-			Bridge.caught(catchDescription)
-			Bridge.chat(moonEncounters.." Moon encounters, "..conjunction.." "..cutterStatus..exclamation)
 			Bridge.moonResults(moonEncounters, caughtCutter)
 		end
 
@@ -1516,7 +1493,6 @@ Strategies.functions = {
 					status.cancel = true
 				else
 					local encounterDescription = Data.yellow and "a Geodude" or "enough encounters"
-					Bridge.chat("didn't kill "..encounterDescription.." in Mt. Moon. Using Rare Candies early to sacrifice some exp, but improve some damage ranges here.")
 				end
 			end
 		end
@@ -1645,25 +1621,6 @@ Strategies.functions = {
 			healAmount = healAmount - 3
 		end
 
-		if not data.goldeen and Strategies.initialize("healed") then
-			local message
-			local potionCount = Inventory.count("potion")
-			local needsToHeal = healAmount - Combat.hp()
-			if potionCount * 20 < needsToHeal then
-				message = "ran too low on potions to adequately heal before Misty D:"
-			elseif healAmount < 60 then
-				message = "is limiting heals to attempt to get closer to red-bar off Misty..."
-			elseif isSpeedTie then
-				message = "will need to get lucky with speed ties to beat Misty here..."
-			elseif not outspeeds then
-				message = "will need to get lucky to beat Misty here. We're outsped..."
-			elseif not canTwoHit then
-				message = "will need to get lucky with damage ranges to beat Misty here..."
-			end
-			if message then
-				Bridge.chat(message, false, potionCount)
-			end
-		end
 		return strategyFunctions.potion({hp=healAmount, chain=data.chain})
 	end,
 
@@ -1672,12 +1629,12 @@ Strategies.functions = {
 			if Battle.redeployNidoking() then
 				return false
 			end
-			if Pokemon.isOpponent("staryu") then
+			--[[if Pokemon.isOpponent("staryu") then
 				local __, turnsToKill = Combat.bestMove()
 				if turnsToKill and turnsToKill > 1 then
 					Strategies.chat("staryu", "needs a good damage range to 1-shot Staryu with this attack...")
 				end
-			end
+			end--]]
 
 			if Battle.opponentAlive() and Combat.isConfused() then
 				if not status.sacrifice and not Control.yolo and stats.nidoran.speedDV >= 11 then
@@ -1694,7 +1651,7 @@ Strategies.functions = {
 						else
 							swapMessage = swapMessage.."We'll have to hit through Confusion here."
 						end
-						Bridge.chat(swapMessage)
+						--Bridge.chat(swapMessage)
 					end
 				end
 				if status.sacrifice and Battle.sacrifice(status.sacrifice) then
@@ -1709,10 +1666,6 @@ Strategies.functions = {
 
 	announceMachop = function()
 		if Strategies.trainerBattle() then
-			local __, turnsToKill, turnsToDie = Combat.bestMove()
-			if turnsToKill and turnsToDie == 1 and turnsToKill > 1 then
-				Strategies.chat("machop", "needs a good damage range to one-shot this Machop, which can kill us with a Karate Chop critical.")
-			end
 			Battle.automate()
 		elseif status.foughtTrainer then
 			return true
@@ -1738,30 +1691,12 @@ Strategies.functions = {
 	end,
 
 	epicCutscene = function()
-		Bridge.chatRandom(
-			" CUTSCENE HYPE!",
-			" Please, sit back and enjoy the cutscene.",
-			"is enjoying the scenery Kappa b",
-			" Wait, is it too late to get Mew from under the truck??",
-			" Cutscenes DansGame",
-			" Your regularly scheduled run will continue in just a moment. Thank you for your patience.",
-			" Guys I think the game softlocked Kappa",
-			" Perfect, I needed a quick bathroom break.",
-			" *yawn*",
-			" :z",
-			" I think that ship broke the ocean.",
-			" Ahh, lovely weather in Vermilion City this time of year, isn't it?",
-			" As a devout practicing member of the Church of Going Fast, I find the depiction of this unskippable cutscene offensive, frankly.",
-			" Anyone else feel cheated we didn't actually get to ride to some far off land in that boat?",
-			" So let me get this straight, the ship hadn't even left port yet, and the captain was already seasick? DansGame" --amanazi
-		)
 		return true
 	end,
 
 	fourTurnThrash = function()
 		if Strategies.trainerBattle() then
-			Strategies.chat("four_turn", "needs to 4-turn Thrash, or hit through Confusion (each a 1 in 2 chance) to beat this dangerous trainer...")
-
+			
 			local forced
 			if Pokemon.isOpponent("bellsprout") then
 				if Battle.opponentAlive() then
@@ -1787,7 +1722,7 @@ Strategies.functions = {
 				local __, turnsToKill, turnsToDie = Combat.bestMove()
 				if turnsToKill and turnsToKill > 1 and stats.nidoran.attackDV < 10 then
 					local effectsDescription = turnsToDie == 1 and "kill/confuse" or "confuse"
-					Strategies.chat("range", "needs a good damage range to 1-shot this Venonat, which can "..effectsDescription.."...")
+					--Strategies.chat("range", "needs a good damage range to 1-shot this Venonat, which can "..effectsDescription.."...")
 				end
 			end
 			Battle.automate()
@@ -1798,12 +1733,6 @@ Strategies.functions = {
 
 	announceOddish = function()
 		if Strategies.trainerBattle() then
-			if Pokemon.isOpponent("oddish") then
-				local __, turnsToKill = Combat.bestMove()
-				if turnsToKill and turnsToKill > 1 then
-					Strategies.chat("oddish", "needs a good damage range to 1-shot this Oddish, which can sleep/paralyze.")
-				end
-			end
 			Battle.automate()
 		elseif status.foughtTrainer then
 			return true
@@ -1815,15 +1744,6 @@ Strategies.functions = {
 			return Strategies.closeMenuFor(data)
 		end
 		local heals = Inventory.contains("paralyze_heal", "full_restore")
-		if Strategies.initialize("paralyzed") then
-			local message
-			if heals then
-				message = "Full restoring to cure paralysis from Oddish."
-			else
-				message = "No Paralysis cure available :("
-			end
-			Bridge.chat(message)
-		end
 		data.item = heals
 		return Strategies.useItem(data)
 	end,
@@ -1884,7 +1804,7 @@ Strategies.functions = {
 	digFight = function()
 		if Strategies.initialize() then
 			if Combat.inRedBar() then
-				Bridge.chat("is using Rock Slide to one-hit these Ghastlies in red-bar (each is 1 in 10 to miss).")
+				--Bridge.chat("is using Rock Slide to one-hit these Ghastlies in red-bar (each is 1 in 10 to miss).")
 			end
 		end
 		if Strategies.trainerBattle() then
@@ -1894,8 +1814,7 @@ Strategies.functions = {
 				if not backupPokemon then
 					return Strategies.death()
 				end
-				Strategies.chat("died", " Rock Slide missed BibleThump Trying to finish them off with Dig...")
-
+				
 				if Menu.onPokemonSelect() then
 					Pokemon.select(backupPokemon)
 				else
@@ -1938,7 +1857,7 @@ Strategies.functions = {
 			local getCarbos = Strategies.needsCarbosAtLeast(2)
 			if getCarbos then
 				if not Data.yellow then
-					Bridge.chat(" This Nidoking has bad speed, so we need the extra Carbos here.")
+					--Bridge.chat(" This Nidoking has bad speed, so we need the extra Carbos here.")
 				end
 			elseif Strategies.getsSilphCarbosSpecially() then
 				getCarbos = true
@@ -2007,7 +1926,7 @@ Strategies.functions = {
 			if not Strategies.needsCarbosAtLeast(3) then
 				return true
 			end
-			Bridge.chat(" This Nidoking has terrible speed, so we'll need to go out of our way for the extra Carbos here.")
+			
 		end
 		if Inventory.count("carbos") ~= status.carbos then
 			if Walk.step(20, 20) then
@@ -2042,7 +1961,7 @@ Strategies.functions = {
 				if Control.yolo or Inventory.contains("full_restore") then
 					return true
 				end
-				Bridge.chat("needs to grab the backup Full Restore here.")
+				
 			end
 		end
 		local px, py = Player.position()
@@ -2079,9 +1998,6 @@ Strategies.functions = {
 		local skipsCarbos = not Strategies.needsCarbosAtLeast(Data.yellow and 2 or 1)
 		if Strategies.initialize() then
 			status.startCount = Inventory.count("carbos")
-			if not skipsCarbos then
-				Bridge.chat(" This Nidoking has mediocre speed, so we'll need to pick up the extra Carbos here.")
-			end
 		end
 
 		local px, py = Player.position()
@@ -2115,7 +2031,6 @@ Strategies.functions = {
 					if not useEtherInsteadOfCenter() then
 						return true
 					end
-					Bridge.chat("is Elixering and grabbing the Max Ether to skip the Elite 4 Center.")
 				end
 
 				status.item = Inventory.contains("ether", "max_ether", "elixer")
@@ -2182,7 +2097,6 @@ Strategies.functions = {
 			if not Strategies.canHealFor("LoreleiDewgong") then
 				return true
 			end
-			Bridge.chat("is healing before Lorelei to skip the Elite 4 Center...")
 		end
 
 		data.hp = Combat.healthFor("LoreleiDewgong")
@@ -2192,20 +2106,8 @@ Strategies.functions = {
 	centerSkip = function()
 		if Strategies.initialize() then
 			Strategies.setYolo("e4center")
-			--[[if not Strategies.requiresE4Center(true, true) then
-				local message
-				if not Data.yellow then
-					message = "is skipping the Center and attempting to red-bar "
-					if Strategies.hasHealthFor("LoreleiDewgong") then
-						message = message.."off Lorelei..."
-					else
-						message = message.."the Elite 4!"
-					end
-					Bridge.chat(message)
-				end
-				return true
-			end--]]
-			Bridge.chat("is taking the Center to heal HP/PP for Lorelei.")
+			
+			--Bridge.chat("is taking the Center to heal HP/PP for Lorelei.")
 		end
 		return strategyFunctions.dialogue({dir="Up"})
 	end,
@@ -2231,24 +2133,26 @@ Strategies.functions = {
 			if not status.frames then
 				status.frames = 0
 				local victoryMessage = "Beat Pokemon "..Utils.capitalize(Data.gameName).." in "..status.finishTime
-				
+				--if not Strategies.overMinute("champion") then
+				--	victoryMessage = victoryMessage..", a new PB!"
+				--end
+				Strategies.tweetProgress(victoryMessage)
 				if Data.run.seed then
 					Data.setFrames()
 					print("v"..VERSION..": "..Data.run.frames.." frames, with seed "..Data.run.seed)
 
-					if (Data.yellow or not INTERNAL or RESET_FOR_TIME) and not Strategies.replay then
+					if (Data.yellow or not INTERNAL or RESET_FOR_TIME) then
 						gui.cleartext()
-						gui.text(0, 0, "PokeManiak Bot v"..VERSION)
-						gui.text(0, 14, "Seed: "..Data.run.seed)
-						gui.text(0, 28, "Name: "..Textbox.getNamePlaintext())
-						gui.text(0, 42, "Time: "..Utils.elapsedTime())
+						gui.text(0, 0, "PokeBot v"..VERSION)
+						gui.text(0, 21, "Seed: "..Data.run.seed)
+						gui.text(0, 42, "Name: ADAM")
+						gui.text(0, 63, "Time: "..Utils.elapsedTime())
 						client.setscreenshotosd(true)
 						client.screenshot()
 						client.setscreenshotosd(false)
 						gui.cleartext()
 					end
 				end
-				Strategies.tweetProgress(victoryMessage)
 				Bridge.guessResults("elite4", "victory")
 			elseif status.frames > 1800 then
 				return Strategies.hardReset("won", "Finished the game in "..status.finishTime)
@@ -2269,16 +2173,13 @@ strategyFunctions = Strategies.functions
 function Strategies.execute(data)
 	local strategyFunction = strategyFunctions[data.s]
 	if not strategyFunction then
-		p("INVALID STRATEGY", data.s, Data.gameName)
 		return true
 	end
 	if strategyFunction(data) then
 		status = {tries=0}
 		Strategies.status = status
 		Strategies.completeGameStrategy()
-		-- if Data.yellow and INTERNAL and not STREAMING_MODE then
-		-- 	print(data.s)
-		-- end
+		
 		if resetting then
 			return nil
 		end
@@ -2317,7 +2218,7 @@ function Strategies.init(midGame)
 			stats.nidoran.speed = 15
 			stats.nidoran.special = 13
 		end
-		p(stats.nidoran.attack, "x", stats.nidoran.speed, stats.nidoran.special)
+		--p(stats.nidoran.attack, "x", stats.nidoran.speed, stats.nidoran.special)
 	end
 
 	Strategies.initGame(midGame)

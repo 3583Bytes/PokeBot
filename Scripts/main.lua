@@ -3,18 +3,18 @@
 RESET_FOR_TIME = false -- Set to true if you're trying to break the record, not just finish a run
 BEAST_MODE = false -- WARNING: Do not engage. Will yolo everything, and reset at every opportunity in the quest for 1:47.
 
-INITIAL_SPEED = 400
-AFTER_BROCK_SPEED = 400
+INITIAL_SPEED = 100
+AFTER_BROCK_SPEED = 100
 
-RUNS_FILE = "C:/Users/Adam/Documents/PokeBotGoodv5/runs.txt" -- Use / insted of \ otherwise it will not work
+RUNS_FILE = "C:/Users/Adam/Documents/PokeBotGoodv6/runs.txt" -- Use / insted of \ otherwise it will not work
 
-local CUSTOM_SEED  = nil -- Set to a known seed to replay it, or leave nil for random runs
+local CUSTOM_SEED  = nil --nil or Set to a known seed to replay it, or leave nil for random runs
 local NIDORAN_NAME = "A" -- Set this to the single character to name Nidoran (note, to replay a seed, it MUST match!)
 local PAINT_ON     = false -- Display contextual information while the bot runs
 
 -- START CODE (hard hats on)
 
-VERSION = "2.5.1"
+VERSION = "2.5.4"
 
 local Data = require "data.data"
 
@@ -61,14 +61,6 @@ function resetAll()
 	client.speedmode(INITIAL_SPEED)
 
 	if CUSTOM_SEED then
-		if CUSTOM_SEED == 1482661519 then
-			CUSTOM_SEED = 1482669594
-		elseif CUSTOM_SEED == 1482669594 then
-			CUSTOM_SEED = 1482661519
-		else
-			CUSTOM_SEED = 1482669594
-		end
-	
 		Data.run.seed = CUSTOM_SEED
 		Strategies.replay = true
 		print("PokeBot v"..VERSION..": ".."Fixed Seed:".." "..Data.run.seed)
@@ -184,7 +176,7 @@ while true do
 		oldSeconds = newSeconds
 	end
 	
-	
+	-- Game gets stuck once a while
 	if SuckCount > 25000 then
 		print ("Stuck Detected")
 		Strategies.reset("Stuck Detected", SuckCount, nil, true)

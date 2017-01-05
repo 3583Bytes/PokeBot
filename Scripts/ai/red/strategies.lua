@@ -324,9 +324,6 @@ strategyFunctions.catchNidoran = function()
 			if not status.canProgress then
 				Bridge.caught("nidoran")
 				status.canProgress = true
-				if not gotExperience then
-					Bridge.chat("is waiting in the grass for a suitable encounter for experience.")
-				end
 			end
 			if gotExperience then
 				if INTERNAL then
@@ -487,7 +484,7 @@ strategyFunctions.fightBrock = function()
 					elseif onixHP == status.bideHP then
 						if turnsToKill == 2 and Control.yolo then
 							if onixHP == Memory.double("battle", "opponent_max_hp") then
-								Strategies.chat("biding", "got first-turn Bided. Too far behind to wait it out, so attempting to finish off Onix before it hits (1 in 2 chance).")
+								--Strategies.chat("biding", "got first-turn Bided. Too far behind to wait it out, so attempting to finish off Onix before it hits (1 in 2 chance).")
 							end
 						else
 							if turnsToDie <= 2 and Combat.hp() < Combat.maxHP() - 5 and Inventory.contains("potion") then
@@ -496,14 +493,14 @@ strategyFunctions.fightBrock = function()
 							end
 							if turnsToDie == 1 then
 								if turnsElapsed == 0 and onixHP == Memory.double("battle", "opponent_max_hp") then
-									Strategies.chat("biding", "is in range to die to a Tackle. Attempting to finish off Onix before Bide hits (1 in 2 chance).")
+									--Strategies.chat("biding", "is in range to die to a Tackle. Attempting to finish off Onix before Bide hits (1 in 2 chance).")
 								end
 							else
 								forced = "tail_whip"
 							end
 						end
 					else
-						Strategies.chat("biding", "got Bided the same turn as Bubble. It'll need to last 3 turns (1 in 2 chance) for us to finish him before it hits...")
+						--Strategies.chat("biding", "got Bided the same turn as Bubble. It'll need to last 3 turns (1 in 2 chance) for us to finish him before it hits...")
 					end
 					Control.ignoreMiss = forced ~= nil
 					Battle.fight(forced)
@@ -586,7 +583,6 @@ strategyFunctions.bugCatcher = function()
 		end
 		if not isWeedle and status.secondCaterpie then
 			if stats.nidoran.level4 and stats.nidoran.speed >= 14 and Pokemon.index(0, "attack") >= 19 then
-				-- print("IA "..Pokemon.index(0, "attack"))
 				Battle.automate()
 				return
 			end
@@ -633,7 +629,6 @@ strategyFunctions.shortsKid = function()
 		end
 		local potions = Inventory.count("potion")
 		if potions <= 7 then
-			Strategies.chat("looper", "Stuck in a heal loop, we're just going to have to risk it.")
 			disablePotion = true
 		elseif potions <= 8 then
 			disablePotion = not Battle.damaged(2)
@@ -686,7 +681,7 @@ strategyFunctions.rivalSandAttack = function()
 		if Battle.redeployNidoking() then
 			local sacrifice = Battle.deployed()
 			if sacrifice then
-				Strategies.chat("sacrificed", "got Sand-Attacked... Swapping out "..Utils.capitalize(sacrifice).." to restore accuracy.")
+				--Strategies.chat("sacrificed", "got Sand-Attacked... Swapping out "..Utils.capitalize(sacrifice).." to restore accuracy.")
 			end
 			return false
 		end
@@ -776,7 +771,7 @@ strategyFunctions.potionForMankey = function(data)
 		else
 			local curr_hp = Combat.hp()
 			if Control.yolo and curr_hp < healForDefense and curr_hp >= yoloHP then
-				Bridge.chat("is attempting to stay in range of red-bar by skipping potioning before Mankey...")
+				--Bridge.chat("is attempting to stay in range of red-bar by skipping potioning before Mankey...")
 			end
 		end
 	end
@@ -811,7 +806,7 @@ strategyFunctions.redbarMankey = function()
 		if Pokemon.info("nidoking", "level") < 23 or Inventory.count("potion") < 4 then -- RISK
 			return true
 		end
-		Bridge.chat("is using Poison Sting to attempt to red-bar off Mankey.")
+		--Bridge.chat("is using Poison Sting to attempt to red-bar off Mankey.")
 	end
 end
 
@@ -820,7 +815,7 @@ end
 strategyFunctions.thrashGeodude = function()
 	if Strategies.trainerBattle() then
 		if Pokemon.isDeployed("squirtle") then
-			Strategies.chat("sacrificed", " Thrash didn't finish the kill :( swapping to Squirtle for safety.")
+			--Strategies.chat("sacrificed", " Thrash didn't finish the kill :( swapping to Squirtle for safety.")
 		elseif Pokemon.isOpponent("geodude") and Battle.opponentAlive() and Combat.isConfused() then
 			if Menu.onBattleSelect() and Strategies.initialize("shouldSacrifice") then
 				if not Control.yolo or Combat.inRedBar() then
@@ -830,7 +825,7 @@ strategyFunctions.thrashGeodude = function()
 					status.sacrificeSquirtle = not turnsToKill or turnsToKill > 1
 				end
 				if not status.sacrificeSquirtle then
-					Bridge.chat("is attempting to hit through Confusion to avoid switching out to Squirtle...")
+					--Bridge.chat("is attempting to hit through Confusion to avoid switching out to Squirtle...")
 				end
 			end
 			if status.sacrificeSquirtle and Battle.sacrifice("squirtle") then
@@ -889,10 +884,10 @@ strategyFunctions.catchOddish = function()
 	if Strategies.initialize() then
 		if caught then
 			if Pokemon.inParty("oddish") then
-				Bridge.chat("found an Oddish without having to search in the grass PogChamp")
+				--Bridge.chat("found an Oddish without having to search in the grass PogChamp")
 			end
 		else
-			Bridge.chat("is searching for an Oddish in the grass, to teach it Cut.")
+			--Bridge.chat("is searching for an Oddish in the grass, to teach it Cut.")
 		end
 	end
 	local battleValue = Memory.value("game", "battle")
@@ -1031,7 +1026,7 @@ strategyFunctions.potionBeforeSurge = function()
 		if Control.yolo then
 			local curr_hp = Combat.hp()
 			if curr_hp > yoloHp and curr_hp <= 21 then
-				Bridge.chat("is attempting to keep red-bar through Surge")
+				--Bridge.chat("is attempting to keep red-bar through Surge")
 				return true
 			end
 		end
@@ -1102,7 +1097,7 @@ strategyFunctions.redbarCubone = function()
 					end
 				end
 				if forced and Strategies.initialize() then
-					Bridge.chat("is using Thunderbolt to attempt to redbar off Cubone.")
+					--Bridge.chat("is using Thunderbolt to attempt to redbar off Cubone.")
 				end
 			end
 			Control.ignoreMiss = forced ~= nil
@@ -1392,7 +1387,7 @@ strategyFunctions.potionBeforeHypno = function()
 
 	local healTarget
 	if healthUnderRedBar >= 0 then
-		Strategies.chat("warned", "is attempting to carry red-bar through Koga. Hypno has a 1 in 4 chance to end the run with Confusion here...")
+		--Strategies.chat("warned", "is attempting to carry red-bar through Koga. Hypno has a 1 in 4 chance to end the run with Confusion here...")
 
 		healTarget = "HypnoHeadbutt"
 		if useRareCandy then
@@ -1442,7 +1437,7 @@ strategyFunctions.fightKoga = function()
 				local drillHp = (Pokemon.index(0, "level") >= 41) and 12 or 9
 				if curr_hp > 0 and curr_hp < drillHp and Battle.pp("horn_drill") > 0 then
 					forced = "horn_drill"
-					Strategies.chat("drilling", "is at low enough HP to try Horn Drill on Weezing")
+					--Strategies.chat("drilling", "is at low enough HP to try Horn Drill on Weezing")
 					Control.ignoreMiss = true
 				elseif Battle.opponentDamaged(2) then
 					Inventory.use("pokeflute", nil, true)
@@ -1525,7 +1520,7 @@ strategyFunctions.fightGiovanniMachoke = function()
 		elseif not status.killedMachoke then
 			local __, turnsToDie = Combat.enemyAttack()
 			if turnsToDie and status.skipSpecial and turnsToDie > 1 and Memory.value("battle", "opponent_last_move") == 116 then
-				Bridge.chat("got Focus Energy, which reduces Machoke's crit rate - using an X Special to guarantee the last damage range.")
+				--Bridge.chat("got Focus Energy, which reduces Machoke's crit rate - using an X Special to guarantee the last damage range.")
 				status.skipSpecial = false
 			end
 			if not status.skipSpecial and not Strategies.prepare("x_special") then
@@ -1546,7 +1541,7 @@ strategyFunctions.checkGiovanni = function()
 		end
 		if riskGiovanni then
 			if Control.yolo or Pokemon.info("nidoking", "hp") >= ryhornDamage then
-				Bridge.chat("is using risky strats on Giovanni to skip the extra Max Ether...")
+				--Bridge.chat("is using risky strats on Giovanni to skip the extra Max Ether...")
 				return true
 			end
 		end
@@ -1556,7 +1551,7 @@ strategyFunctions.checkGiovanni = function()
 		else
 			message = message.."Reverting to standard strats."
 		end
-		Bridge.chat(message)
+		--Bridge.chat(message)
 		riskGiovanni = false
 	end
 	return strategyFunctions.potion({hp=50, yolo=ryhornDamage})
@@ -1671,7 +1666,7 @@ strategyFunctions.lorelei = function()
 		if opponentName == "dewgong" then
 			local sacrifice = Pokemon.getSacrifice("pidgey", "spearow", "squirtle", "paras", "oddish")
 			if sacrifice and Battle.sacrifice(sacrifice) then
-				Strategies.chat("sacrificed", " Swapping out "..Utils.capitalize(sacrifice).." to tank Aurora Beam into turn 2 Rest. Only a problem if it misses...")
+				--Strategies.chat("sacrificed", " Swapping out "..Utils.capitalize(sacrifice).." to tank Aurora Beam into turn 2 Rest. Only a problem if it misses...")
 				return false
 			end
 		elseif opponentName == "jinx" then
@@ -1766,7 +1761,7 @@ strategyFunctions.prepareForBlue = function()
 				message = "is using limited potions"
 			end
 			message = message.." to attempt to red-bar off Pidgeot..."
-			Bridge.chat(message)
+			--Bridge.chat(message)
 		end
 	end
 
@@ -1800,7 +1795,7 @@ strategyFunctions.blue = function()
 			local healCutoff = skyDamage * 0.825
 			if Strategies.initialize("skyAttacked") then
 				if not Strategies.isPrepared("x_accuracy", status.xItem) then
-					local msg = " Uh oh... First-turn Sky Attack could end the run here, "
+					--[[[local msg = " Uh oh... First-turn Sky Attack could end the run here, "
 					if Combat.hp() > skyDamage then
 						msg = msg.."no criticals pls D:"
 					elseif Strategies.canHealFor(healCutoff, true) then
@@ -1811,8 +1806,8 @@ strategyFunctions.blue = function()
 						msg = msg.."."
 					else
 						msg = msg.."and nothing left to heal with BibleThump"
-					end
-					Bridge.chat(msg)
+					end--]]
+					--Bridge.chat(msg)
 				end
 			end
 

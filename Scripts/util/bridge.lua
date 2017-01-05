@@ -22,7 +22,7 @@ function Bridge.init(gameName)
 end
 
 function Bridge.tweet(message)
-	print("tweet::"..message)
+	--print("tweet::"..message)
 	return true
 end
 
@@ -72,7 +72,7 @@ function Bridge.stats(message)
 end
 
 function Bridge.command(command)
-	print("Bridge Command")
+	--print("Bridge Command")
 	return send(command)
 end
 

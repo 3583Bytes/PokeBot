@@ -343,7 +343,7 @@ function Control.encounter(battleState)
 				if Memory.value("battle", "miss") == 1 then
 					if not Control.ignoreMiss and Battle.accurateAttack and not Combat.sandAttacked() then
 						local exclaim = Strategies.deepRun and ";_; " or ""
-						Bridge.chat("gen 1 missed "..exclaim.."(1 in 256 chance)")
+						--Bridge.chat("gen 1 missed "..exclaim.."(1 in 256 chance)")
 					end
 					Control.missed = true
 					Data.increment("misses")
@@ -385,8 +385,7 @@ function Control.encounter(battleState)
 					for __,catch in ipairs(gottaCatchEm) do
 						if opponent == catch then
 							if not Pokemon.inParty(catch) then
-								local criticaled = Memory.value("battle", "critical") == 1
-								Bridge.chat("accidentally killed "..Utils.capitalize(catch).." with a "..(criticaled and "critical" or "high damage range").." :(")
+								--accidentally killed instead of catching
 								Control.killedCatch = true
 							end
 							break
