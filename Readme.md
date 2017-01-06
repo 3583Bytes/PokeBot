@@ -6,8 +6,8 @@ Pokémon Red (Any% Glitchless) personal best runs:
 
 * [1:53:13] Seed: 1483665769
 * [1:53:25] Seed: 1483476755
-* [1:53:41] Seed: 1482661519
 * [1:53:39] Seed: 1482815777
+* [1:53:41] Seed: 1482661519
 
 ## Watch live
 
